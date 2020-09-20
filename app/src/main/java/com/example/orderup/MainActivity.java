@@ -67,33 +67,52 @@ public class MainActivity extends AppCompatActivity {
         // move to food choices page
         setContentView(R.layout.food_sort);
 
-        final CheckBox checkBox1 = (CheckBox) findViewById(R.id.checkBox1);
-        checkBox1.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // get category from checkbox and search database for restaurants with the same category
-                String category = (String) checkBox1.getText();
-                ArrayList<ArrayList<String>> restaurants = sqliteHandler.getCategories(category);
-                for (int i = 0; i < restaurants.size(); i++) {
+        // group together the checkbox objects by their ids
+        final ArrayList<CheckBox> checkboxes = new ArrayList<CheckBox>();
+        checkboxes.add((CheckBox) findViewById(R.id.checkBox1));
+        checkboxes.add((CheckBox) findViewById(R.id.checkBox2));
+        checkboxes.add((CheckBox) findViewById(R.id.checkBox3));
+        checkboxes.add((CheckBox) findViewById(R.id.checkBox4));
+        checkboxes.add((CheckBox) findViewById(R.id.checkBox5));
 
-                    // add and display a new card for every restaurant in list
-                    String restaurantName = restaurants.get( i ).get( 0 );
-                    String stars = restaurants.get( i ).get( 1 );
-                    String distance = restaurants.get( i ).get( 2 );
-                    String grouping = restaurants.get( i ).get( 3 );
-                    String waitTime = restaurants.get( i ).get( 4 );
-
-                    // add card with the information from the DB
-                    addCard(700025, restaurantName, stars, distance, waitTime);
+        // set onClick for each checkbox
+        for(CheckBox checkbox : checkboxes) {
+            checkbox.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    updateCards(checkboxes);
                 }
-            }
-        });
+            });
+        }
+    }
 
-        // populate results
-        addCard(R.drawable.bobacat, "bobacat", "4.2", "4.2", "10.1");
-        addCard(R.drawable.strawberry, "strawberry", "4.3", "5.1", "4.2");
-        addCard(R.drawable.parfait, "parfait", "4.4", "6.0", "27.1");
-        addCard(R.drawable.matcha, "matcha", "4.5", "6.2", "11.4");
-        addCard(R.drawable.peach, "peach", "4.6", "7.2", "59.1");
+    private void updateCards(ArrayList<CheckBox> checkboxes) {
+        // remove all cards in the results view
+        LinearLayout linearLayout = (LinearLayout)findViewById(R.id.resultsLinearLayout);
+        linearLayout.removeAllViews();
+
+        // get label names of checked elements
+        ArrayList<String> categories = new ArrayList<String>();
+        for(CheckBox checkbox:checkboxes) {
+            if (checkbox.isChecked()) {
+                categories.add((String)checkbox.getText());
+            }
+        }
+
+        // get category from checkbox and search database for restaurants with the same category
+        int[] images = {2131230868, 2131230837, 2131230871, 2131230867, 2131230815};
+        ArrayList<ArrayList<String>> restaurants = sqliteHandler.getResults(categories);
+        for (int i = 0; i < restaurants.size(); i++) {
+
+            // add and display a new card for every restaurant in list
+            String restaurantName = restaurants.get( i ).get( 0 );
+            String stars = restaurants.get( i ).get( 1 );
+            String distance = restaurants.get( i ).get( 2 );
+            String grouping = restaurants.get( i ).get( 3 );
+            String waitTime = restaurants.get( i ).get( 4 );
+
+            // add card with the information from the DB
+            addCard(images[i], restaurantName, stars, distance, waitTime);
+        }
     }
 
     private void addCard(int imageID, String restaurantName, String stars, String distance, String waitTime) {
@@ -242,7 +261,7 @@ public class MainActivity extends AppCompatActivity {
         });
         sqliteHandler.insertRow( colNames, new String[]{
                 "Big Endian Cafe", "1420 W CANNON DR", "(832) 435-1231", "WWW.HACKRICE.COM", "3.47", "1.2",
-                "Category 2", "14.5", "22.2", "7", "0"
+                "Category 2", "14.5", "13.1", "7", "0"
         });
         sqliteHandler.insertRow( colNames, new String[]{
                 "Big Byte", "1234 HACKERS ONLY", "(832) 555-0000", "WWW.HACKRICE.COM", "4.99", "3.4",

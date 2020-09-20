@@ -75,9 +75,23 @@ public class SqliteHandler {
         }
     }
 
-    public ArrayList<ArrayList<String>> getCategories(String category) {
-        category = "Category 1";
-        String query = "SELECT name, rating, distance, category, current_wait FROM " + tablename + " WHERE category = '" + category + "'";
+    public ArrayList<ArrayList<String>> getResults(ArrayList<String> categories) {
+        // edge case: no categories selected
+        if (categories.size() == 0)
+        {
+            return new ArrayList<ArrayList<String>>();
+        }
+
+        // prepare array list entries for SQLite query by parsing it
+        String categoryNames = "('";
+        for (int i = 0; i < categories.size(); i++) {
+            categoryNames += categories.get(i);
+            if (i < categories.size() - 1) categoryNames += "', '";
+            else categoryNames += "')";
+        }
+
+        // generate query string
+        String query = "SELECT name, rating, distance, category, current_wait FROM " + tablename + " WHERE category IN " + categoryNames;
         Cursor cursor = db.rawQuery(query.toString(), null);
         // list made up of lists of restaurant info
         ArrayList<ArrayList<String>> restaurants = new ArrayList<ArrayList<String>>();

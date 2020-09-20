@@ -94,31 +94,31 @@
                     android:layout_width="228dp"
                     android:layout_height="wrap_content"
                     android:clickable="true"
-                    android:text="CheckBox" />
+                    android:text="Category 1" />
 
                 <CheckBox
                     android:id="@+id/checkBox2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="CheckBox" />
+                    android:text="Category 2" />
 
                 <CheckBox
                     android:id="@+id/checkBox3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="CheckBox" />
+                    android:text="Category 3" />
 
                 <CheckBox
                     android:id="@+id/checkBox4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="CheckBox" />
+                    android:text="Category 4" />
 
                 <CheckBox
                     android:id="@+id/checkBox5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="CheckBox" />
+                    android:text="Category 5" />
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
