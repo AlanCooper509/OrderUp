@@ -3,10 +3,13 @@ package com.example.orderup;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -34,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private void renderChoicePage() {
         // move to food/time choice page
         setContentView(R.layout.filter_choice);
+
         // click on food button
         Button foodButton = (Button) findViewById(R.id.foodButton);
         foodButton.setOnClickListener(new View.OnClickListener() {
@@ -41,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
                 renderFoodChoicePage();
             }
         });
+
         // click on time button
         Button timeButton = (Button) findViewById(R.id.timeButton);
         timeButton.setOnClickListener(new View.OnClickListener() {
@@ -56,36 +61,133 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.food_sort);
 
         // populate results
-        addCard();
-
-        // add restaurant info to each restaurant
-        TextView restOne = (TextView) findViewById(R.id.restOne);
-        restOne.setText("hello hello doo doo doo");
-
-        TextView restTwo = (TextView) findViewById(R.id.restTwo);
-        restTwo.setText("beeboop");
-
-        TextView restThree = (TextView) findViewById(R.id.restThree);
-        restThree.setText("yeehaw");
-
-        TextView restFour = (TextView) findViewById(R.id.restFour);
-        restFour.setText("bing bong");
-
-        TextView restFive = (TextView) findViewById(R.id.restFive);
-        restFive.setText("achoo");
+        addCard(R.drawable.bobacat, "bobacat", "4.2", "4.2", "10.1");
+        addCard(R.drawable.strawberry, "strawberry", "4.3", "5.1", "4.2");
+        addCard(R.drawable.parfait, "parfait", "4.4", "6.0", "27.1");
+        addCard(R.drawable.matcha, "matcha", "4.5", "6.2", "11.4");
+        addCard(R.drawable.peach, "peach", "4.6", "7.2", "59.1");
     }
 
-    private void addCard() {
+    private void addCard(int imageID, String restaurantName, String stars, String distance, String waitTime) {
+        // add a CardView as a child view to the LinearLayout parent view
         LinearLayout linearLayout = (LinearLayout)findViewById(R.id.resultsLinearLayout);
         CardView cardView = new CardView(this);
         linearLayout.addView(cardView);
-        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams)cardView.getLayoutParams();
-        float DENSITY = cardView.getContext().getResources().getDisplayMetrics().density;
-        layoutParams.height = (int) (110.0 * DENSITY); // px to dp
-        layoutParams.width = MATCH_PARENT;
-        layoutParams.bottomMargin = (int) (15.0 * DENSITY); // px to dp
-        cardView.setLayoutParams(layoutParams);
-        cardView.setRadius(25 * DENSITY);
+
+        // modify the layout params for the added CardView
+        LinearLayout.LayoutParams linearLayoutParams = (LinearLayout.LayoutParams)cardView.getLayoutParams();
+        float DENSITY = cardView.getContext().getResources().getDisplayMetrics().density; // dp/px ratio
+        linearLayoutParams.height = (int) (110.0*DENSITY); // px to dp
+        linearLayoutParams.width = MATCH_PARENT;
+        linearLayoutParams.bottomMargin = (int) (15.0*DENSITY); // px to dp
+        cardView.setLayoutParams(linearLayoutParams);
+
+        // set corner radius of CardView
+        cardView.setRadius(25*DENSITY);
+
+        // add the restaurant image to the cardView
+        addImageView(imageID, cardView);
+
+        // add the restaurant name to the cardView
+        addNameTextView(restaurantName, cardView);
+
+        // add the number of stars to the CardView
+        addStarsTextView(stars, cardView);
+
+        // add the distance to the CardView
+        addDistanceTextView(distance, cardView);
+
+        // add the wait time to the CardView
+        addWaitTimeTextView(waitTime, cardView);
+    }
+
+    private void addImageView(int imageID, CardView cardView) {
+        float DENSITY = cardView.getContext().getResources().getDisplayMetrics().density; // dp/px ratio
+
+        // add ImageView to CardView
+        ImageView imageView = new ImageView(this);
+        imageView.setImageResource(imageID);
+        cardView.addView(imageView);
+        imageView.setPadding((int)(8*DENSITY), (int)(8*DENSITY), (int)(8*DENSITY), (int)(8*DENSITY));
+
+        // modify the layout params for the added ImageView
+        CardView.LayoutParams cardLayoutParams = (CardView.LayoutParams)imageView.getLayoutParams();
+        cardLayoutParams.height = MATCH_PARENT;
+        cardLayoutParams.width = (int) (135.0*DENSITY);
+        imageView.setLayoutParams(cardLayoutParams);
+    };
+
+    private void addNameTextView(String restaurantName, CardView cardView) {
+        float DENSITY = cardView.getContext().getResources().getDisplayMetrics().density; // dp/px ratio
+
+        // add the NAME TextView to CardView
+        TextView textView = new TextView(this);
+        textView.setText(restaurantName);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+        textView.setTextColor(Color.parseColor("#000000"));
+        cardView.addView(textView);
+
+        // modify the layout params for the added TextView
+        CardView.LayoutParams cardLayoutParams = (CardView.LayoutParams)textView.getLayoutParams();
+        cardLayoutParams.height = (int) (30.0*DENSITY);
+        cardLayoutParams.width = (int) (175.0*DENSITY);
+        cardLayoutParams.leftMargin = (int) (125*DENSITY);
+        cardLayoutParams.topMargin = (int) (5*DENSITY);
+        textView.setLayoutParams(cardLayoutParams);
+    }
+
+    private void addStarsTextView(String stars, CardView cardView) {
+        float DENSITY = cardView.getContext().getResources().getDisplayMetrics().density; // dp/px ratio
+
+        // add the STARS TextView to CardView
+        TextView textView = new TextView(this);
+        textView.setText(stars + " stars");
+        cardView.addView(textView);
+
+        // modify the layout params for the added TextView
+        CardView.LayoutParams cardLayoutParams = (CardView.LayoutParams)textView.getLayoutParams();
+        cardLayoutParams.height = (int) (30.0*DENSITY);
+        cardLayoutParams.width = (int) (175.0*DENSITY);
+        cardLayoutParams.leftMargin = (int) (125*DENSITY);
+        cardLayoutParams.topMargin = (int) (30*DENSITY);
+        textView.setLayoutParams(cardLayoutParams);
+    }
+
+    private void addWaitTimeTextView(String waitTime, CardView cardView) {
+        float DENSITY = cardView.getContext().getResources().getDisplayMetrics().density; // dp/px ratio
+
+        // add the STARS TextView to CardView
+        TextView textView = new TextView(this);
+        textView.setText(waitTime + " minutes of waiting");
+        if(Float.parseFloat(waitTime) < 15.0) textView.setTextColor(Color.parseColor("#4CBB17"));
+        else if(Float.parseFloat(waitTime) < 30.0) textView.setTextColor(Color.parseColor("#E3AE01"));
+        else textView.setTextColor(Color.parseColor("#FF0000"));
+        cardView.addView(textView);
+
+        // modify the layout params for the added TextView
+        CardView.LayoutParams cardLayoutParams = (CardView.LayoutParams)textView.getLayoutParams();
+        cardLayoutParams.height = (int) (30.0*DENSITY);
+        cardLayoutParams.width = (int) (175.0*DENSITY);
+        cardLayoutParams.leftMargin = (int) (125*DENSITY);
+        cardLayoutParams.topMargin = (int) (60*DENSITY);
+        textView.setLayoutParams(cardLayoutParams);
+    }
+
+    private void addDistanceTextView(String distance, CardView cardView) {
+        float DENSITY = cardView.getContext().getResources().getDisplayMetrics().density; // dp/px ratio
+
+        // add the STARS TextView to CardView
+        TextView textView = new TextView(this);
+        textView.setText(distance + " mi");
+        cardView.addView(textView);
+
+        // modify the layout params for the added TextView
+        CardView.LayoutParams cardLayoutParams = (CardView.LayoutParams)textView.getLayoutParams();
+        cardLayoutParams.height = (int) (30.0*DENSITY);
+        cardLayoutParams.width = (int) (175.0*DENSITY);
+        cardLayoutParams.leftMargin = (int) (125*DENSITY);
+        cardLayoutParams.topMargin = (int) (80*DENSITY);
+        textView.setLayoutParams(cardLayoutParams);
     }
 
     private SqliteHandler setupDB() {
