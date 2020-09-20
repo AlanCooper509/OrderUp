@@ -116,13 +116,13 @@
 
     <ImageView
         android:id="@+id/logoImageView"
-        android:layout_width="180dp"
-        android:layout_height="180dp"
+        android:layout_width="399dp"
+        android:layout_height="830dp"
         app:layout_constraintBottom_toTopOf="@+id/welcomeTextView"
         app:layout_constraintEnd_toStartOf="@+id/rightDivider"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toEndOf="@+id/leftDivider"
         app:layout_constraintTop_toBottomOf="@+id/topDivider"
-        app:srcCompat="@drawable/untitled" />
+        app:layout_constraintVertical_bias="0.472"
+        app:srcCompat="@drawable/logo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
