@@ -64,7 +64,7 @@
         app:layout_constraintTop_toTopOf="@+id/topDivider2">
 
         <TextView
-            android:id="@+id/restaurantTextView"
+            android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="37dp"
             android:fontFamily="@font/raleway"

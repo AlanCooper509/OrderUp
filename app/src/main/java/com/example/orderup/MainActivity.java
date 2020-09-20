@@ -186,9 +186,38 @@ public class MainActivity extends AppCompatActivity {
         HashMap<String, String> restaurantInfo = sqliteHandler.getResult(restaurantName);
 
         // pass data to the appropriate IDs
-        String test = restaurantInfo.get("restaurant_id");
-        TextView debugging = (TextView)findViewById(R.id.debugging);
-        debugging.setText(test);
+        TextView name = (TextView)findViewById(R.id.name);
+        name.setText(restaurantInfo.get("name"));
+
+        TextView rating = (TextView)findViewById(R.id.rating);
+        rating.setText(restaurantInfo.get("rating") + " stars");
+
+        TextView distance = (TextView)findViewById(R.id.distance);
+        distance.setText("Distance Away: " + restaurantInfo.get("distance"));
+
+        TextView average_wait = (TextView)findViewById(R.id.average_wait);
+        average_wait.setText("Avg. serving speed: " + restaurantInfo.get("average_wait") + " min");
+
+        TextView current_wait = (TextView)findViewById(R.id.current_wait);
+        current_wait.setText(restaurantInfo.get("current_wait") + " min");
+
+        TextView tables = (TextView)findViewById(R.id.tables);
+        tables.setText("Available tables: " + restaurantInfo.get("tables"));
+
+        TextView orders = (TextView)findViewById(R.id.orders);
+        orders.setText("Currently handling orders: " + restaurantInfo.get("orders"));
+
+        TextView number = (TextView)findViewById(R.id.number);
+        number.setText(restaurantInfo.get("number"));
+
+        TextView address = (TextView)findViewById(R.id.address);
+        address.setText(restaurantInfo.get("address"));
+
+        TextView website = (TextView)findViewById(R.id.website);
+        website.setText(restaurantInfo.get("website"));
+
+        ImageView imageView = (ImageView)findViewById(R.id.restaurant_image);
+        imageView.setImageResource(Integer.parseInt(restaurantInfo.get("image_id")));
     }
 
     private void addImageView(int imageID, CardView cardView) {
