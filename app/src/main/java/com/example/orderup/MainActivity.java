@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         timeButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // TODO: implement
-                setContentView(R.layout.activity_main);
+                renderTimeChoicePage();
             }
         });
     }
@@ -112,6 +112,26 @@ public class MainActivity extends AppCompatActivity {
 
             // add card with the information from the DB
             addCard(images[i], restaurantName, stars, distance, waitTime);
+        }
+    }
+
+    private void renderTimeChoicePage() {
+        // move to time choices page
+        setContentView(R.layout.time_sort);
+        // get an organized list from sqlite in sqlitehandler file and return the list
+        ArrayList<ArrayList<String>> restaurants = sqliteHandler.minFirst();
+        // from list, loop through and print restaurants out in order of minimum to maximum time (add wait time + distance)
+        for (int i = 0; i < restaurants.size(); i++) {
+
+            // add and display a new card for every restaurant in list
+            String restaurantName = restaurants.get( i ).get( 0 );
+            String stars = restaurants.get( i ).get( 1 );
+            String distance = restaurants.get( i ).get( 2 );
+            String grouping = restaurants.get( i ).get( 3 );
+            String waitTime = restaurants.get( i ).get( 4 );
+
+            // add card with the information from the DB
+            addCard(2131230868, restaurantName, stars, distance, waitTime);
         }
     }
 
