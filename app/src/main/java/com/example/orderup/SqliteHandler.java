@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SqliteHandler {
     private SQLiteDatabase db;
@@ -72,3 +74,22 @@ public class SqliteHandler {
         }
     }
 }
+
+    public ArrayList<ArrayList<String>> getCategories(String category) {
+        category = "Category 1";
+        String query = "SELECT name, rating, distance, category, current_wait FROM " + tablename + " WHERE category = " + category;
+        Cursor cursor = db.rawQuery(query, null);
+        // list made up of lists of restaurant info
+        ArrayList<ArrayList<String>> restaurants = new ArrayList<ArrayList<String>>();
+        while (cursor.moveToNext() ) {
+            String[] colnames = cursor.getColumnNames();
+            // list of single restaurant info
+            ArrayList<String> singleRest = new ArrayList<String>();
+            // add info for a single restaurant category by category
+            for (int i = 0; i < colnames.length; i++) {
+                singleRest.add(cursor.getString(i));
+            }
+            restaurants.add(singleRest)
+        }
+        return restaurants;
+    }

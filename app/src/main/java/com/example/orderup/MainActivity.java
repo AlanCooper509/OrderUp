@@ -7,8 +7,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
@@ -54,6 +59,20 @@ public class MainActivity extends AppCompatActivity {
     private void renderFoodChoicePage() {
         // move to food choices page
         setContentView(R.layout.food_sort);
+
+        CheckBox checkBox1 = (CheckBox) findViewById(R.id.checkBox1);
+        checkBox1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // get category from checkbox and search database for restaurants with the same category
+                String category = checkBox1.getText();
+                ArrayList<ArrayList<String>> restaurants = SqliteHandler.getCategories(category);
+                for (int i = 0; i < restaurants.size(); i++){
+                    // add and display a new card for every restaurant in list
+                    addCard(R.drawable.peach, restaurants[i][0], restaurants[i][1], restaurants[i][2], restaurants[i][3]);
+                }
+            }
+        });
 
         // populate results
         addCard();
