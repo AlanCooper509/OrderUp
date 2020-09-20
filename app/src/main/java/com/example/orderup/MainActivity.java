@@ -193,10 +193,10 @@ public class MainActivity extends AppCompatActivity {
         rating.setText(restaurantInfo.get("rating") + " stars");
 
         TextView distance = (TextView)findViewById(R.id.distance);
-        distance.setText("Distance Away: " + restaurantInfo.get("distance"));
+        distance.setText("Distance away: " + restaurantInfo.get("distance"));
 
         TextView average_wait = (TextView)findViewById(R.id.average_wait);
-        average_wait.setText("Avg. serving speed: " + restaurantInfo.get("average_wait") + " min");
+        average_wait.setText("Avg. wait: " + restaurantInfo.get("average_wait") + " min");
 
         TextView current_wait = (TextView)findViewById(R.id.current_wait);
         current_wait.setText(restaurantInfo.get("current_wait") + " min");
@@ -329,23 +329,23 @@ public class MainActivity extends AppCompatActivity {
         // TODO: inserting dummy data for hackathon testing
         sqliteHandler.insertRow( colNames, new String[]{
                 "Fine Eats", "1500 W CANNON DR", "(832) 123-1234", "WWW.HACKRICE.COM", "4.42", "1.4",
-                "Category 1", "24.5", "35.7", "4", "2", "2131230868"
+                "Category 1", "24.5", "35.7", "4", "2", "2131230838"
         });
         sqliteHandler.insertRow( colNames, new String[]{
                 "Big Endian Cafe", "1420 W CANNON DR", "(832) 435-1231", "WWW.HACKRICE.COM", "3.47", "1.2",
-                "Category 2", "14.5", "13.1", "7", "0", "2131230837"
+                "Category 2", "14.5", "13.1", "7", "0", "2131230815"
         });
         sqliteHandler.insertRow( colNames, new String[]{
                 "Big Byte", "1234 HACKERS ONLY", "(832) 555-0000", "WWW.HACKRICE.COM", "4.99", "3.4",
-                "Category 3", "21.2", "18.2", "1", "5", "2131230871"
+                "Category 3", "21.2", "18.2", "1", "5", "2131230868"
         });
         sqliteHandler.insertRow( colNames, new String[]{
                 "The Motherboard", "9999 MY ADDRESS", "(832) 999-9999", "WWW.HACKRICE.COM", "2.42", "O.4",
-                "Category 4", "35.9", "47.8", "10", "0", "2131230867"
+                "Category 4", "35.9", "47.8", "10", "0", "2131230869"
         });
         sqliteHandler.insertRow( colNames, new String[]{
-                "Cyberspace Cuisine", "1200 OUTER SPACE", "(832) D4T4-5C1", "WWW.HACKRICE.COM", "1.42", "99.12",
-                "Category 5", "194.5", "135.7", "1", "5", "2131230815"
+                "CyberSnacks", "1200 OUTER SPACE", "(832) D4T4-5C1", "WWW.HACKRICE.COM", "1.42", "99.12",
+                "Category 5", "194.5", "135.7", "1", "5", "2131230872"
         });
 
         return sqliteHandler;

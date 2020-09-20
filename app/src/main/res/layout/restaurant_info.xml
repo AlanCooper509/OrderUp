@@ -104,7 +104,7 @@
             android:layout_width="180dp"
             android:layout_height="37dp"
             android:layout_marginLeft="110dp"
-            android:layout_marginTop="115dp"
+            android:layout_marginTop="100dp"
             android:fontFamily="@font/raleway"
             android:gravity="left|center_vertical"
             android:text="Restaurant Name"
@@ -116,7 +116,7 @@
             android:layout_width="96dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="15dp"
             tools:srcCompat="@tools:sample/avatars" />
 
     </androidx.cardview.widget.CardView>
@@ -146,7 +146,7 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="30dp"
             android:fontFamily="@font/raleway"
             android:text="TextView"
             android:textColor="#000000"
