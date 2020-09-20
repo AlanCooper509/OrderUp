@@ -10,12 +10,19 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
 public class MainActivity extends AppCompatActivity {
+
+    private SqliteHandler sqliteHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // handle db setup
-        SqliteHandler sqliteHandler = setupDB();
+        sqliteHandler = setupDB();
 
         // click on login button
         Button loginButton = (Button) findViewById(R.id.loginButton);
@@ -59,6 +66,27 @@ public class MainActivity extends AppCompatActivity {
     private void renderFoodChoicePage() {
         // move to food choices page
         setContentView(R.layout.food_sort);
+
+        final CheckBox checkBox1 = (CheckBox) findViewById(R.id.checkBox1);
+        checkBox1.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // get category from checkbox and search database for restaurants with the same category
+                String category = (String) checkBox1.getText();
+                ArrayList<ArrayList<String>> restaurants = sqliteHandler.getCategories(category);
+                for (int i = 0; i < restaurants.size(); i++) {
+
+                    // add and display a new card for every restaurant in list
+                    String restaurantName = restaurants.get( i ).get( 0 );
+                    String stars = restaurants.get( i ).get( 1 );
+                    String distance = restaurants.get( i ).get( 2 );
+                    String grouping = restaurants.get( i ).get( 3 );
+                    String waitTime = restaurants.get( i ).get( 4 );
+
+                    // add card with the information from the DB
+                    addCard(700025, restaurantName, stars, distance, waitTime);
+                }
+            }
+        });
 
         // populate results
         addCard(R.drawable.bobacat, "bobacat", "4.2", "4.2", "10.1");
