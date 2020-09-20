@@ -10,64 +10,48 @@
 
     <TextView
         android:id="@+id/welcomeTextView"
-        android:layout_width="300dp"
-        android:layout_height="30dp"
-        android:layout_marginBottom="10dp"
+        android:layout_width="308dp"
+        android:layout_height="71dp"
+        android:layout_marginTop="156dp"
         android:fontFamily="@font/raleway"
         android:gravity="center"
-        android:text="Welcome Back!"
+        android:text="What do you want to search by?"
         android:textColor="#000000"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/usernameTextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/usernameTextView"
-        android:layout_width="280dp"
-        android:layout_height="55dp"
-        android:layout_marginBottom="25dp"
-        android:background="@drawable/round_button"
-        android:ems="14"
-        android:fontFamily="@font/raleway"
-        android:gravity="center"
-        android:hint="Username"
-        android:inputType="textPersonName"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/passwordTextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/passwordTextView"
-        android:layout_width="280dp"
-        android:layout_height="55dp"
-        android:layout_marginBottom="50dp"
-        android:background="@drawable/round_button"
-        android:ems="14"
-        android:fontFamily="@font/raleway"
-        android:gravity="center"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/loginButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topDivider" />
 
     <Button
-        android:id="@+id/loginButton"
-        android:layout_width="155dp"
-        android:layout_height="55dp"
-        android:layout_marginBottom="32dp"
-        android:background="@drawable/round_button"
+        android:id="@+id/foodButton"
+        android:layout_width="173dp"
+        android:layout_height="74dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/rounder_button"
         android:fontFamily="@font/raleway"
-        android:text="Next"
+        android:text="Food"
         android:textAllCaps="false"
         android:textColor="#000000"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/bottomDivider"
+        app:layout_constraintBottom_toTopOf="@+id/timeButton"
+        app:layout_constraintEnd_toStartOf="@+id/rightDivider"
+        app:layout_constraintStart_toEndOf="@+id/leftDivider" />
+
+    <Button
+        android:id="@+id/timeButton"
+        android:layout_width="173dp"
+        android:layout_height="74dp"
+        android:layout_marginBottom="104dp"
+        android:background="@drawable/rounder_button"
+        android:fontFamily="@font/raleway"
+        android:text="Time"
+        android:textAllCaps="false"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/bottomDivider"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/bottomDivider" />
 
     <View
         android:id="@+id/topDivider"
