@@ -27,7 +27,7 @@
         android:id="@+id/foodButton"
         android:layout_width="173dp"
         android:layout_height="74dp"
-        android:layout_marginBottom="88dp"
+        android:layout_marginBottom="40dp"
         android:background="@drawable/rounder_button"
         android:fontFamily="@font/raleway"
         android:text="Food"

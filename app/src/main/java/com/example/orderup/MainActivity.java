@@ -23,7 +23,23 @@ public class MainActivity extends AppCompatActivity {
                 Button foodButton = (Button) findViewById(R.id.foodButton);
                 foodButton.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
+                        // move to food choices page
                         setContentView(R.layout.food_sort);
+                        // add restaurant info to each restaurant
+                        TextView restOne = (TextView) findViewById(R.id.restOne);
+                        restOne.setText("hello hello doo doo doo");
+
+                        TextView restTwo = (TextView) findViewById(R.id.restTwo);
+                        restTwo.setText("beeboop");
+
+                        TextView restThree = (TextView) findViewById(R.id.restThree);
+                        restThree.setText("yeehaw");
+
+                        TextView restFour = (TextView) findViewById(R.id.restFour);
+                        restFour.setText("bing bong");
+
+                        TextView restFive = (TextView) findViewById(R.id.restFive);
+                        restFive.setText("achoo");
                     }
                 });
                 // click on time button
@@ -35,7 +51,5 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
-        //TextView welcomeTextView = (TextView) findViewById(R.id.welcomeTextView);
-        //welcomeTextView.setText("hello hello");
     }
 }
