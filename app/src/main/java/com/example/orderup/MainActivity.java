@@ -1,5 +1,6 @@
 package com.example.orderup;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
@@ -15,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -57,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
         Button timeButton = (Button) findViewById(R.id.timeButton);
         timeButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // TODO: implement
                 renderTimeChoicePage();
             }
         });
@@ -85,6 +86,28 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void renderTimeChoicePage() {
+        // move to time choices page
+        setContentView(R.layout.time_sort);
+
+        // get an organized list from sqlite in sqlitehandler file and return the list
+        ArrayList<ArrayList<String>> restaurants = sqliteHandler.minFirst();
+
+        // from list, loop through and print restaurants out in order of minimum to maximum time (add wait time + distance)
+        for (int i = 0; i < restaurants.size(); i++) {
+
+            // add and display a new card for every restaurant in list
+            String restaurantName = restaurants.get( i ).get( 0 );
+            String stars = restaurants.get( i ).get( 1 );
+            String distance = restaurants.get( i ).get( 2 );
+            String waitTime = restaurants.get( i ).get( 3 );
+            String image_id = restaurants.get( i ).get( 4 );
+
+            // add card with the information from the DB
+            addCard( Integer.parseInt(image_id), restaurantName, stars, distance, waitTime);
+        }
+    }
+
     private void updateCards(ArrayList<CheckBox> checkboxes) {
         // remove all cards in the results view
         LinearLayout linearLayout = (LinearLayout)findViewById(R.id.resultsLinearLayout);
@@ -99,7 +122,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // get category from checkbox and search database for restaurants with the same category
-        int[] images = {2131230868, 2131230837, 2131230871, 2131230867, 2131230815};
         ArrayList<ArrayList<String>> restaurants = sqliteHandler.getResults(categories);
         for (int i = 0; i < restaurants.size(); i++) {
 
@@ -107,35 +129,15 @@ public class MainActivity extends AppCompatActivity {
             String restaurantName = restaurants.get( i ).get( 0 );
             String stars = restaurants.get( i ).get( 1 );
             String distance = restaurants.get( i ).get( 2 );
-            String grouping = restaurants.get( i ).get( 3 );
-            String waitTime = restaurants.get( i ).get( 4 );
+            String waitTime = restaurants.get( i ).get( 3 );
+            String image_id = restaurants.get( i ).get( 4 );
 
             // add card with the information from the DB
-            addCard(images[i], restaurantName, stars, distance, waitTime);
+            addCard(Integer.parseInt(image_id), restaurantName, stars, distance, waitTime);
         }
     }
 
-    private void renderTimeChoicePage() {
-        // move to time choices page
-        setContentView(R.layout.time_sort);
-        // get an organized list from sqlite in sqlitehandler file and return the list
-        ArrayList<ArrayList<String>> restaurants = sqliteHandler.minFirst();
-        // from list, loop through and print restaurants out in order of minimum to maximum time (add wait time + distance)
-        for (int i = 0; i < restaurants.size(); i++) {
-
-            // add and display a new card for every restaurant in list
-            String restaurantName = restaurants.get( i ).get( 0 );
-            String stars = restaurants.get( i ).get( 1 );
-            String distance = restaurants.get( i ).get( 2 );
-            String grouping = restaurants.get( i ).get( 3 );
-            String waitTime = restaurants.get( i ).get( 4 );
-
-            // add card with the information from the DB
-            addCard(2131230868, restaurantName, stars, distance, waitTime);
-        }
-    }
-
-    private void addCard(int imageID, String restaurantName, String stars, String distance, String waitTime) {
+    private void addCard(int imageID, final String restaurantName, String stars, String distance, String waitTime) {
         // add a CardView as a child view to the LinearLayout parent view
         LinearLayout linearLayout = (LinearLayout)findViewById(R.id.resultsLinearLayout);
         CardView cardView = new CardView(this);
@@ -152,6 +154,13 @@ public class MainActivity extends AppCompatActivity {
         // set corner radius of CardView
         cardView.setRadius(25*DENSITY);
 
+        // add the listener for pulling up the restaurant information
+        cardView.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                renderInfoPage(restaurantName);
+            }
+        });
+
         // add the restaurant image to the cardView
         addImageView(imageID, cardView);
 
@@ -166,6 +175,20 @@ public class MainActivity extends AppCompatActivity {
 
         // add the wait time to the CardView
         addWaitTimeTextView(waitTime, cardView);
+    }
+
+    private void renderInfoPage(String restaurantName) {
+        setContentView(R.layout.restaurant_info);
+
+        // LIST OF KEYS (see the "colNames" variable in the "setupDB()" method):
+        // "restaurant_id", "name", "address", "number", "website", "rating", "distance",
+        // "category", "current_wait", "average_wait", "tables", "orders", "image_id"
+        HashMap<String, String> restaurantInfo = sqliteHandler.getResult(restaurantName);
+
+        // pass data to the appropriate IDs
+        String test = restaurantInfo.get("restaurant_id");
+        TextView debugging = (TextView)findViewById(R.id.debugging);
+        debugging.setText(test);
     }
 
     private void addImageView(int imageID, CardView cardView) {
@@ -263,11 +286,11 @@ public class MainActivity extends AppCompatActivity {
         String tablename = "restaurant";
         String[] colNames = new String[] {
                 "name", "address", "number", "website", "rating", "distance",
-                "category", "current_wait", "average_wait", "tables", "orders"
+                "category", "current_wait", "average_wait", "tables", "orders", "image_id"
         };
         String[] colTypes = new String[] {
                 "TEXT", "TEXT", "TEXT", "TEXT", "INTEGER", "REAL",
-                "TEXT", "REAL", "REAL", "INTEGER", "INTEGER"
+                "TEXT", "REAL", "REAL", "INTEGER", "INTEGER", "TEXT"
         };
 
         // TODO: creates company table since it's being placed in :memory: for each run
@@ -277,23 +300,23 @@ public class MainActivity extends AppCompatActivity {
         // TODO: inserting dummy data for hackathon testing
         sqliteHandler.insertRow( colNames, new String[]{
                 "Fine Eats", "1500 W CANNON DR", "(832) 123-1234", "WWW.HACKRICE.COM", "4.42", "1.4",
-                "Category 1", "24.5", "35.7", "4", "2"
+                "Category 1", "24.5", "35.7", "4", "2", "2131230868"
         });
         sqliteHandler.insertRow( colNames, new String[]{
                 "Big Endian Cafe", "1420 W CANNON DR", "(832) 435-1231", "WWW.HACKRICE.COM", "3.47", "1.2",
-                "Category 2", "14.5", "13.1", "7", "0"
+                "Category 2", "14.5", "13.1", "7", "0", "2131230837"
         });
         sqliteHandler.insertRow( colNames, new String[]{
                 "Big Byte", "1234 HACKERS ONLY", "(832) 555-0000", "WWW.HACKRICE.COM", "4.99", "3.4",
-                "Category 3", "21.2", "18.2", "1", "5"
+                "Category 3", "21.2", "18.2", "1", "5", "2131230871"
         });
         sqliteHandler.insertRow( colNames, new String[]{
                 "The Motherboard", "9999 MY ADDRESS", "(832) 999-9999", "WWW.HACKRICE.COM", "2.42", "O.4",
-                "Category 4", "35.9", "47.8", "10", "0"
+                "Category 4", "35.9", "47.8", "10", "0", "2131230867"
         });
         sqliteHandler.insertRow( colNames, new String[]{
                 "Cyberspace Cuisine", "1200 OUTER SPACE", "(832) D4T4-5C1", "WWW.HACKRICE.COM", "1.42", "99.12",
-                "Category 5", "194.5", "135.7", "1", "5"
+                "Category 5", "194.5", "135.7", "1", "5", "2131230815"
         });
 
         return sqliteHandler;

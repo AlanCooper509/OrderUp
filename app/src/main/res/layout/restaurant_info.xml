@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constaintLayout"
-    android:background="@drawable/gradient"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/gradient">
 
     <View
         android:id="@+id/topDivider4"
@@ -51,32 +49,31 @@
         app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="309dp"
-        android:layout_height="420dp"
-        android:fillViewport="true"
-        app:layout_constraintEnd_toEndOf="@+id/bottomDivider"
-        app:layout_constraintStart_toStartOf="@+id/bottomDivider"
-        app:layout_constraintTop_toBottomOf="@+id/textView">
-
-        <LinearLayout
-            android:id="@+id/resultsLinearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </androidx.core.widget.NestedScrollView>
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="250dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="30dp"
-        android:gravity="center"
-        android:text="Fastest Restaurants Near You:"
-        android:textColor="@color/design_default_color_background"
-        android:textSize="28sp"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView2"
+        android:layout_width="308dp"
+        android:layout_height="209dp"
+        android:layout_marginTop="15dp"
+        android:background="#FFFFFF"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardCornerRadius="25dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/topDivider4">
+
+        <TextView
+            android:id="@+id/restaurantTextView"
+            android:layout_width="180dp"
+            android:layout_height="37dp"
+            android:layout_marginLeft="110dp"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/raleway"
+            android:gravity="left|center_vertical"
+            android:text="Restaurant Name"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+    </androidx.cardview.widget.CardView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

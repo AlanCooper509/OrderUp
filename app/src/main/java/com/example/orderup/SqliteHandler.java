@@ -6,6 +6,7 @@ import android.util.Log;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static java.lang.Integer.parseInt;
@@ -93,7 +94,7 @@ public class SqliteHandler {
         }
 
         // generate query string
-        String query = "SELECT name, rating, distance, category, current_wait FROM " + tablename + " WHERE category IN " + categoryNames;
+        String query = "SELECT name, rating, distance, current_wait, image_id FROM " + tablename + " WHERE category IN " + categoryNames;
         Cursor cursor = db.rawQuery(query.toString(), null);
         // list made up of lists of restaurant info
         ArrayList<ArrayList<String>> restaurants = new ArrayList<ArrayList<String>>();
@@ -110,24 +111,43 @@ public class SqliteHandler {
         return restaurants;
     }
 
-    public ArrayList<ArrayList<String>> minFirst() {
-        String query = "SELECT name, rating, distance, current_wait FROM " + tablename + " ORDER BY CAST(distance AS REAL) ASC";
+    public HashMap<String, String> getResult(String restaurantName) {
+        String query = "SELECT * FROM " + tablename + " WHERE name = '" + restaurantName + "'";
         Cursor cursor = db.rawQuery(query.toString(), null);
+
+        // TODO: should only return one result for our small dataset
+        //  but using restaurantName instead of the primary key as the query parameter
+        //  could have duplicates that would break the code
+        HashMap<String, String> restaurant = new HashMap<String, String>();
+        while (cursor.moveToNext()) {
+            // add info for a single restaurant category by category
+            for (int i = 0; i < cursor.getColumnCount(); i++) {
+                restaurant.put(cursor.getColumnName(i), cursor.getString(i));
+            }
+        }
+        return restaurant;
+    }
+
+    public ArrayList<ArrayList<String>> minFirst() {
+        // perform the query
+        String query = "SELECT name, rating, distance, current_wait, image_id FROM " + tablename + " ORDER BY CAST(current_wait AS REAL) ASC";
+        Cursor cursor = db.rawQuery(query.toString(), null);
+
         // list made up of lists of restaurant info
         ArrayList<ArrayList<String>> restaurants = new ArrayList<ArrayList<String>>();
-
         while (cursor.moveToNext()) {
             String[] colnames = cursor.getColumnNames();
+
             // list of single restaurant info
             ArrayList<String> singleRest = new ArrayList<String>();
+
             // add info for a single restaurant category by category
             for (int i = 0; i < colnames.length; i++) {
                 singleRest.add(cursor.getString(i));
             }
             restaurants.add(singleRest);
         }
+
         return restaurants;
-
-
     }
 }
